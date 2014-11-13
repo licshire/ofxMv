@@ -24,7 +24,6 @@ void mvTransport::setup(mvDm365 *_davinci, int _startFrame, int _endFrame) {
 }
 
 void mvTransport::update() {
-    cout << currentFrameNumber << endl;
     switch (playbackModeParam) {
     case PLAYBACK_MODE_FORWARD:
         playbackModeParam.setName("mode: forwards");

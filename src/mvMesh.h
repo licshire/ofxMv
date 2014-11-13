@@ -21,5 +21,9 @@ public:
     void update();
     void draw();
 
-    void setTranslati
-};
+    inline void moveTo(float x, float y, float z) { translation.set(x,y,z); }
+    inline void moveTo(ofVec3f moveToHere) { translation.set(moveToHere.x, moveToHere.y, moveToHere.z); }
+    inline void setScale(float x, float y) { scale.set(x,y); }
+    inline void setScale(ofVec2f scl) { scale.set(scl.x,scl.y); }
+    inline void setRot(float rot) { rotation = rot; }
+  };

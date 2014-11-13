@@ -52,12 +52,19 @@ public:
     inline int getFileSize() {
         return fileSize;
     }
-    inline int getFrameWidth() {
+    inline int getFrameWidthMb() {
         return frame_width_in_mb;
     }
-    inline int getFrameHeight() {
+    inline int getFrameHeightMb() {
         return frame_height_in_mb;
     }
+    inline int getFrameWidthPx() {
+        return frame_width_in_mb * mb_px_side;
+    }
+    inline int getFrameHeightPx() {
+        return frame_height_in_mb * mb_px_side;
+    }
+
     inline int getNumberOfMacroblocksInFrame() {
         return frame_width_in_mb * frame_height_in_mb;
     }
@@ -76,13 +83,13 @@ public:
     // play rewind scrub reset (should be in framecontrol handler)
 
     inline int xyToIndex(int x,int y)   {
-        return y*getFrameWidth() + x;
+        return y*getFrameWidthMb() + x;
     }
     inline int indexToX(int index)      {
-        return index % getFrameWidth();
+        return index % getFrameWidthMb();
     }
     inline int indexToY(int index)      {
-        return (index - indexToX(index)) / getFrameWidth();
+        return (index - indexToX(index)) / getFrameWidthMb();
     }
 
 
