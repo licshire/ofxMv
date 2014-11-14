@@ -8,16 +8,14 @@ void mvMesh::setup(mvDm365 * _davinci) {
     d = _davinci;
 
     translation.set(0,0,0);
-    scale.set(1,1);
+    scale.set(d->mb_px_side,d->mb_px_side);
     rotation = 0;
 
     for (int y = 0; y < d->getFrameHeightMb(); y ++) {
         for (int x = 0; x < d->getFrameWidthMb(); x ++ ) {
-            int x1 = x*d->mb_px_side;
-            int y1 = y*d->mb_px_side;
+            int x1 = x*scale.x;
+            int y1 = y*scale.y;
             ofVec3f pos(x1,y1,0);
-
-            pos *= scale;
             faceMesh.addVertex(pos);
         }
     }
@@ -48,16 +46,17 @@ void mvMesh::setup(mvDm365 * _davinci) {
 void mvMesh::update() {
     for (int y = 0; y < d->getFrameHeightMb(); y ++) {
         for (int x = 0; x < d->getFrameWidthMb(); x ++ ) {
+            ofVec2f originalVector = d->getVec2f(x,y);
+            originalVector.set((originalVector.x/d->mb_px_side)*scale.x, (originalVector.y/d->mb_px_midside)*scale.y);
 
-            ofVec3f mv(d->getMvX(x,y), d->getMvY(x,y), -d->getVec2f(x,y).length());
-            ofVec3f centPosition(x*d->mb_px_side + d->mb_px_midside, y*d->mb_px_side + d->mb_px_midside, 0);
+            ofVec3f mv(originalVector.x,originalVector.x, originalVector.length());
+            ofVec3f originalPosition(x*scale.x, y*scale.y, 0);
 
 
             ofVec3f oldPosition;
             oldPosition = faceMesh.getVertex(d->xyToIndex(x,y));
             ofVec3f goalPosition;
-            goalPosition = centPosition+mv;
-            goalPosition *= scale;
+            goalPosition = originalPosition+mv;
 
             ofVec3f newPosition;
             newPosition = oldPosition;

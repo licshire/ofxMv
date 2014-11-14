@@ -75,4 +75,29 @@ public:
         m.setRot(rot);
     };
 
+    inline void drawSetup(ofVec2f topleft, int targetWidth, int targetHeight) {
+        m.moveTo(topleft.x, topleft.y, 0);
+
+        float scaleX = targetWidth / d.getFrameWidthMb();
+        float scaleY = targetHeight / d.getFrameHeightMb();
+        m.setScale(scaleX, scaleY);
+
+    }
+
+    inline void drawSetup(ofVec2f topleft, int targetWidth) {
+        m.moveTo(topleft.x, topleft.y, 0);
+
+        float scaleX = targetWidth / d.getFrameWidthMb();
+
+        float targetHeight = (targetWidth * d.getFrameHeightMb())/d.getFrameWidthMb();
+
+        float scaleY = targetHeight / d.getFrameHeightMb();
+        m.setScale(scaleX, scaleY);
+
+    }
+
+
+
+
+
 };
