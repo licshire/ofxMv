@@ -75,11 +75,11 @@ public:
         m.setRot(rot);
     };
 
-    inline void drawSetup(ofVec2f topleft, int targetWidth, int targetHeight) {
+    inline void drawSetup(ofVec2f topleft, float targetWidth, float targetHeight) {
         m.moveTo(topleft.x, topleft.y, 0);
 
-        float scaleX = targetWidth / d.getFrameWidthMb();
-        float scaleY = targetHeight / d.getFrameHeightMb();
+        float scaleX = targetWidth / (d.getFrameWidthMb()-1);
+        float scaleY = targetHeight / (d.getFrameHeightMb()-1);
         m.setScale(scaleX, scaleY);
 
     }
