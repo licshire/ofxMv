@@ -1,0 +1,17 @@
+#!/bin/bash
+cp $1 mv.c
+
+echo -e "\n////////sending code to build server...////////"
+scp mv.c davinci@build.saucon.int:~/luming
+
+echo -e "\n////////making on the build server...//////////"
+ssh davinci@build.saucon.int 'cd ~/luming/ && make'
+
+echo -e "\n////////taking the object home...//////////////"
+scp davinci@build.saucon.int:~/luming/libmv.so ./
+
+echo -e "\n////////sending object to device...////////////"
+scp libmv.so root@172.16.2.3:/opt
+
+echo -e "\n////////////////////////////////////////////////\ndevice now has object (.so)."
+echo -e "'sv restart /etc/sv/vidio | logread -f' to refresh"

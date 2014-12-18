@@ -7,9 +7,7 @@ void ofxMv::setup(string filename, int widthInMB, int heightInMB) {
     d.setup(filename, widthInMB, heightInMB);
     t.setup(&d, 0, d.getNumberOfFrames());
     m.setup(&d);
-
     parameters.add(t.parameters);
-
 }
 
 void ofxMv::update() {
