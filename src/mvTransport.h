@@ -39,7 +39,7 @@ private:
 
 public:
     mvTransport();
-    void setup(mvDm365 * _davinci, int _startFrame, int _endFrame);
+    void setup(mvDm365 * _davinci);
     void seekTo(int newFrameNum);
     void update();
 

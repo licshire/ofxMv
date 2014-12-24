@@ -11,11 +11,11 @@ mvTransport::mvTransport() {
     interFrameCounter = 0;
 }
 
-void mvTransport::setup(mvDm365 *_davinci, int _startFrame, int _endFrame) {
+void mvTransport::setup(mvDm365 *_davinci) {
     davinci = _davinci;
-    startFrame = _startFrame;
-    endFrame = _endFrame-1;
-    currentFrameNumber = _startFrame;
+    startFrame = 0;
+    endFrame = _davinci->getNumberOfFrames()-1;
+    currentFrameNumber = startFrame;
 
     parameters.add(playbackPosition.set("position", currentFrameNumber, startFrame, endFrame));
     parameters.add(playbackSpeedParam.set("speed", 1, 0.001, 2));

@@ -4,9 +4,10 @@
 void ofApp::setup(){
     ofSetBackgroundColor(16);
     ofBackground(128);
-    mv.setup("data/09091100", 44, 33);
-    mv.drawSetup(ofVec3f(50,50), ofVec2f(1.2,1.2), 0);
+    mv.setup("data/09091100", 44, 30);
+    mv.drawSetup(ofVec3f(69,87), ofVec2f(20,20), 0);
 }
+
 
 //--------------------------------------------------------------
 void ofApp::update(){

@@ -2,9 +2,9 @@
 #include "ofMain.h"
 #include <fstream>
 
-///todo dynamically allocate for structs
-#define TOTAL_MB 44*33
-#define MB_STRUCT_SIZE 8
+#define WIDTH_MB 44
+#define HEIGHT_MB 30
+#define TOTAL_MB WIDTH_MB*HEIGHT_MB
 
 
 ///todo, convert this into an interface
@@ -20,7 +20,7 @@ struct frame {
 };
 
 union frame_buffer {
-    char char_buffer[TOTAL_MB * MB_STRUCT_SIZE];
+    char char_buffer[TOTAL_MB * sizeof(motion_vector)];
     struct frame current_frame;
 };
 
@@ -41,56 +41,28 @@ public:
     void loadFrame(int frameNum);
     void setup(string filename, int widthInMB, int heightInMB);
 
-    int getMvX(int x, int y);
-    int getMvX(int index);
-    int getMvY(int x, int y);
-    int getMvY(int index);
-    int getSAD(int x, int y);
-    int getSAD(int index);
-    ofVec2f getVec2f(int x, int y);
+    //get motion vectors
+    inline int getMvX(int x, int y) {       return buffer.current_frame.vector_field[xyToIndex(x, y)].MVx;  }
+    inline int getMvY(int x, int y) {       return buffer.current_frame.vector_field[xyToIndex(x, y)].MVy;  }
+    inline int getSAD(int x, int y) {       return buffer.current_frame.vector_field[xyToIndex(x, y)].SAD;  }
+    inline ofVec2f getVec2f(int x, int y) { return ofVec2f(getMvX(x,y),getMvX(x,y)); }
 
-    inline int getFileSize() {
-        return fileSize;
-    }
-    inline int getFrameWidthMb() {
-        return frame_width_in_mb;
-    }
-    inline int getFrameHeightMb() {
-        return frame_height_in_mb;
-    }
-    inline int getFrameWidthPx() {
-        return frame_width_in_mb * mb_px_side;
-    }
-    inline int getFrameHeightPx() {
-        return frame_height_in_mb * mb_px_side;
-    }
+    inline int getMvX(int index) {          return getMvX(indexToX(index), indexToY(index));    }
+    inline int getMvY(int index) {          return getMvY(indexToX(index), indexToY(index));    }
+    inline int getSAD(int index) {          return getSAD(indexToX(index), indexToY(index));    }
+    inline ofVec2f getVec2f(int index) {    return getVec2f(indexToX(index), indexToY(index)); }
 
-    inline int getNumberOfMacroblocksInFrame() {
-        return frame_width_in_mb * frame_height_in_mb;
-    }
+    //get dimensions
+    inline int getFrameWidthMb() {          return frame_width_in_mb;}
+    inline int getFrameHeightMb() {         return frame_height_in_mb;}
+    inline int getFrameWidthPx() {          return frame_width_in_mb * mb_px_side;}
+    inline int getFrameHeightPx() {         return frame_height_in_mb * mb_px_side;}
 
-    inline int getSizeOfMotionVector() {
-        return 8;//16+16+32 bits = 64 bits = 8 bytes
-    }
+    inline int getNumberOfFrames() {        return fileSize/sizeof(frame);}
 
-    inline int getSizeOfFrame() {
-        return getSizeOfMotionVector()*getNumberOfMacroblocksInFrame();
-    }
-
-    inline int getNumberOfFrames() {
-        return fileSize / getSizeOfFrame();
-    }
-    // play rewind scrub reset (should be in framecontrol handler)
-
-    inline int xyToIndex(int x,int y)   {
-        return y*getFrameWidthMb() + x;
-    }
-    inline int indexToX(int index)      {
-        return index % getFrameWidthMb();
-    }
-    inline int indexToY(int index)      {
-        return (index - indexToX(index)) / getFrameWidthMb();
-    }
+    inline int xyToIndex(int x,int y)   {   return y*getFrameWidthMb() + x;}
+    inline int indexToX(int index)      {   return index % getFrameWidthMb();}
+    inline int indexToY(int index)      {   return (index - indexToX(index)) / getFrameWidthMb();}
 
 
 };
