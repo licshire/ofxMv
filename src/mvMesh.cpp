@@ -47,7 +47,7 @@ void mvMesh::update() {
     for (int y = 0; y < d->getFrameHeightMb(); y ++) {
         for (int x = 0; x < d->getFrameWidthMb(); x ++ ) {
             ofVec2f originalVector = d->getVec2f(x,y);
-            originalVector.set((originalVector.x/d->mb_px_side)*scale.x, (originalVector.y/d->mb_px_midside)*scale.y);
+            originalVector.set((originalVector.x/d->mb_px_side)*scale.x, (originalVector.y/(d->mb_px_side/2))*scale.y);
 
             ofVec3f mv(originalVector.x,originalVector.x, originalVector.length());
             ofVec3f originalPosition(x*scale.x, y*scale.y, 0);

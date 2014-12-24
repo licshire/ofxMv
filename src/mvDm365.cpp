@@ -3,10 +3,7 @@
 mvDm365::mvDm365() {
 }
 
-void mvDm365::setup(string filename, int widthInMB, int heightInMB) {
-    frame_width_in_mb = widthInMB;
-    frame_height_in_mb = heightInMB;
-
+void mvDm365::setup(string filename) {
     frameDataFile.open(filename.c_str(), ios::binary | ios::ate);
     fileSize = frameDataFile.tellg();
     frameDataFile.close();

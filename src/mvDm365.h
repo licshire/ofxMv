@@ -6,9 +6,6 @@
 #define HEIGHT_MB 30
 #define TOTAL_MB WIDTH_MB*HEIGHT_MB
 
-
-///todo, convert this into an interface
-
 struct motion_vector {
     int16_t MVx;
     int16_t MVy;
@@ -30,22 +27,22 @@ private:
     frame_buffer buffer;
 
     int fileSize; // in bytes
-    int frame_width_in_mb;
-    int frame_height_in_mb;
+    int frame_width_in_mb = WIDTH_MB;
+    int frame_height_in_mb = HEIGHT_MB;
 
 public:
     const int mb_px_side = 16;
-    const int mb_px_midside = mb_px_side/2;
 
     mvDm365();
     void loadFrame(int frameNum);
-    void setup(string filename, int widthInMB, int heightInMB);
+    void setup(string filename);
 
     //get motion vectors
     inline int getMvX(int x, int y) {       return buffer.current_frame.vector_field[xyToIndex(x, y)].MVx;  }
     inline int getMvY(int x, int y) {       return buffer.current_frame.vector_field[xyToIndex(x, y)].MVy;  }
     inline int getSAD(int x, int y) {       return buffer.current_frame.vector_field[xyToIndex(x, y)].SAD;  }
-    inline ofVec2f getVec2f(int x, int y) { return ofVec2f(getMvX(x,y),getMvX(x,y)); }
+    inline ofVec2f getVec2f(int x, int y) { ofVec2f mv(getMvX(x,y),getMvX(x,y));
+                                            return mv;}
 
     inline int getMvX(int index) {          return getMvX(indexToX(index), indexToY(index));    }
     inline int getMvY(int index) {          return getMvY(indexToX(index), indexToY(index));    }

@@ -3,11 +3,11 @@
 ofxMv::ofxMv() {
 }
 
-void ofxMv::setup(string filename, int widthInMB, int heightInMB) {
-    d.setup(filename, widthInMB, heightInMB);
+void ofxMv::setup(string filename) {
+    d.setup(filename);
     t.setup(&d);
     m.setup(&d);
-    parameters.add(t.parameters);
+    parameters = t.parameters;
 }
 
 void ofxMv::update() {
